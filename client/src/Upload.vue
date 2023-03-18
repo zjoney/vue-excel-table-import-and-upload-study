@@ -18,10 +18,12 @@
         :show-file-list="false"
         :on-change="handle"
       >
-        <el-button type="primary" slot="trigger">选取EXCEL文件</el-button>
+        <el-button type="primary" slot="trigger">选取EXCEL文件ddd</el-button>
       </el-upload>
 
-      <el-button type="success" @click="submit" :disabled="disable">采集数据提交</el-button>
+      <el-button type="success" @click="submit" :disabled="disable"
+        >采集数据提交</el-button
+      >
     </div>
 
     <!-- 解析出来的数据 -->
@@ -32,8 +34,16 @@
       </h3>
 
       <el-table :data="tempData" style="width: 100%" :height="height" border>
-        <el-table-column prop="name" label="姓名" min-width="50%"></el-table-column>
-        <el-table-column prop="phone" label="电话" min-width="50%"></el-table-column>
+        <el-table-column
+          prop="name"
+          label="姓名"
+          min-width="50%"
+        ></el-table-column>
+        <el-table-column
+          prop="phone"
+          label="电话"
+          min-width="50%"
+        ></el-table-column>
       </el-table>
     </div>
   </div>
@@ -51,7 +61,7 @@ export default {
       height: document.documentElement.clientHeight - 130,
       tempData: [],
       show: false,
-      disable: false
+      disable: false,
     };
   },
   methods: {
@@ -63,19 +73,20 @@ export default {
       this.show = false;
       let loadingInstance = Loading.service({
         text: "小主，请您稍等片刻，奴家正在玩命处理中！",
-        background: "rgba(0,0,0,.5)"
+        background: "rgba(0,0,0,.5)",
       });
 
       await delay(100);
       //读取FILE中的数据（变为JSON格式）
       let data = await readFile(file);
       let workbook = xlsx.read(data, { type: "binary" }),
-        worksheet = workbook.Sheets[workbook.SheetNames[0]];
+      worksheet = workbook.Sheets[workbook.SheetNames[0]];
+      
       data = xlsx.utils.sheet_to_json(worksheet);
-
+console.log("data", data);
       //把读取出来的数据变为最后可以传递给服务器的数据（姓名：name  电话：phone）
       let arr = [];
-      data.forEach(item => {
+      data.forEach((item) => {
         let obj = {};
         for (let key in character) {
           if (!character.hasOwnProperty(key)) break;
@@ -94,6 +105,7 @@ export default {
       // 展示到页面中
       this.show = true;
       this.tempData = arr;
+      console.log('arr', arr)
       loadingInstance.close();
     },
     // 提交数据给服务器
@@ -102,7 +114,7 @@ export default {
         this.$message({
           message: "小主，请您先选择EXCEL文件！",
           type: "warning",
-          showClose: true
+          showClose: true,
         });
         return;
       }
@@ -110,7 +122,7 @@ export default {
       this.disable = true;
       let loadingInstance = Loading.service({
         text: "小主，请您稍等片刻，奴家正在玩命处理中！",
-        background: "rgba(0,0,0,.5)"
+        background: "rgba(0,0,0,.5)",
       });
 
       // 完成后处理的事情
@@ -118,7 +130,7 @@ export default {
         this.$message({
           message: "小主，奴家已经帮您把数据上传了！",
           type: "success",
-          showClose: true
+          showClose: true,
         });
         this.show = false;
         this.disable = false;
@@ -142,8 +154,8 @@ export default {
         send();
       };
       send();
-    }
-  }
+    },
+  },
 };
 </script>
 
