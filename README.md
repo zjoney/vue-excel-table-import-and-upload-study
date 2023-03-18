@@ -5,3 +5,11 @@
 - 采集数据和与后台间的数据交互 
 - 基于xlsx插件实现Excel的导出和自动下载 
 - 后台基于 Node + Express + Mysql 开发
+
+# 项目启动
+```javascript
+cd api
+node server.js
+cd client
+npm run serve
+```
